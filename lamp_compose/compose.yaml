@@ -1,0 +1,18 @@
+services:
+  db:
+    image: harunored/docker-mysql:ver1 # MySQLのイメージ
+    volumes:
+      - mysql_data:/var/lib/mysql # volumeにマウントして永続化
+    ports:
+      - "3306:3306"
+  web:
+    image: harunored/docker-web:ver1 # Apache、PHPのイメージ
+    volumes:
+      - .:/code
+    ports:
+      - "80:80"
+    depends_on:
+      - db      # MySQLを起動してからApacheを起動する
+volumes:
+  mysql_data:
+
