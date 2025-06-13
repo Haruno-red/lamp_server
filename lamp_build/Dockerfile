@@ -1,17 +1,13 @@
 # ubuntuをベースイメージとして使用する
 FROM ubuntu:latest
 
-# パッケージの更新
-RUN apt update && apt -y upgrade
-
-# Apacheのインストール
-RUN apt-get install -y apache2
-
-# MySQLサーバのインストール
-RUN apt-get install -y mysql-server
-
-# PHPのインストール
-RUN apt-get install -y php php-mysql
+# パッケージの更新、必要なパッケージのインストール
+RUN apt update && apt -y install --no-install-recommends \
+    apache2 \
+    mysql-server \
+    php \
+    php-mysql \
+ && rm -rf /var/lib/apt/lists/*
 
 # index.htmlというファイルをドキュメントルートディレクトリに追加
 ADD index.html /var/www/html/
