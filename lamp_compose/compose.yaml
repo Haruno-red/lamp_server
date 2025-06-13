@@ -11,7 +11,7 @@ services:
       - .:/code
     ports:
       - "80:80"
-    depends_on:
+    links:
       - db      # MySQLを起動してからApacheを起動する
 volumes:
   mysql_data:

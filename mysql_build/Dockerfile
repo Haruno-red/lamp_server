@@ -2,7 +2,7 @@
 FROM ubuntu:latest
 
 # パッケージの更新、必要なパッケージのインストール
-RUN apt update && apt -y install mysql-server --no-install-recommends \
+RUN apt update && apt install -y --no-install-recommends mysql-server \
  && rm -rf /var/lib/apt/lists/*
 
 # 必要なポート（mysqlの3306番）を開く
