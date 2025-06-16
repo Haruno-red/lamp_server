@@ -20,11 +20,12 @@
   $dbname = "auth_test";
   $tbl = "test";
 
-  $connect = mysqli_connect($hostname, $username, $password, $dbname);
+  $connect = mysqli_connect($hostname, $username, $password);
+  mysqli_select_db($connect, $dbname);
 
   // データ表示
   $sql = "select * from $tbl";
-  $sqlq = mysqli_query($connect,$sql);
+  $sqlq = mysqli_query($sql, $connect);
 
   while($row = mysqli_fetch_array($sqlq)){
     echo $row["row1"] . " / ";

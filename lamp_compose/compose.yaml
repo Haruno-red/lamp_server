@@ -3,12 +3,14 @@ services:
     image: harunored/docker-mysql:ver1 # MySQLのイメージ
     volumes:
       - mysql_data:/var/lib/mysql # volumeにマウントして永続化
+      - ./mysqld.cnf:/etc/mysql/mysql.conf.d/mysqld.cnf
     ports:
       - "3306:3306"
   web:
     image: harunored/docker-web:ver1 # Apache、PHPのイメージ
     volumes:
       - .:/code
+      - ./test.php:/var/www/html/test.php
     ports:
       - "80:80"
     links:
