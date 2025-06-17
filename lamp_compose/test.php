@@ -27,9 +27,9 @@
   $sqlq = mysqli_query($connect,$sql);
 
   while($row = mysqli_fetch_array($sqlq)){
-    echo $row["row1"] . " / ";
-    echo $row["row2"] . " / ";
-    echo $row["row3"] . "<br>";
+    echo $row["id"] . " / ";
+    echo $row["name"] . " / ";
+    echo $row["age"] . "<br>";
   }
   
   mysqli_free_result($sqlq);

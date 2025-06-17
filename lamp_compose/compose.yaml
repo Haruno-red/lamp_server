@@ -1,16 +1,22 @@
 services:
   db:
     image: harunored/docker-mysql:ver1 # MySQLのイメージ
+    environment:
+      MYSQL_ROOT_PASSWORD: password  # rootのパスワードを'password'
+      MYSQL_DATABASE: auth_test  # 'auth_test'というデータベースを作成
+      MYSQL_USER: sample_user  # 'sample_user'というユーザを作成
+      MYSQL_PASSWORD: pass  # ユーザ'sample_user'のパスワードを'pass'
     volumes:
-      - mysql_data:/var/lib/mysql # volumeにマウントして永続化
-      - ./mysqld.cnf:/etc/mysql/mysql.conf.d/mysqld.cnf
+      - mysql_data:/var/lib/mysql # volumeにマウントしてデータを永続化
+      - ./mysqld.cnf:/etc/mysql/mysql.conf.d/mysqld.cnf  # 設定ファイルの変更
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql  # データベースの初期設定
     ports:
       - "3306:3306"
   web:
     image: harunored/docker-web:ver1 # Apache、PHPのイメージ
     volumes:
       - .:/code
-      - ./test.php:/var/www/html/test.php
+      - ./test.php:/var/www/html/test.php  # 動作検証のためのtest.phpファイルをマウント
     ports:
       - "80:80"
     links:
