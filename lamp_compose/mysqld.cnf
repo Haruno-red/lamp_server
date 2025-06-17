@@ -59,7 +59,9 @@ myisam-recover-options  = BACKUP
 #
 # Error log - should be very few entries.
 #
-log_error = /var/log/mysql/error.log
+#log_error = /dev/stderr
+general_log_file = /dev/stdout
+general_log = 1
 #
 # Here you can see queries with especially long duration
 # slow_query_log                = 1

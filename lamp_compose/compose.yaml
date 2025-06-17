@@ -9,7 +9,7 @@ services:
     volumes:
       - mysql_data:/var/lib/mysql # volumeにマウントしてデータを永続化
       - ./mysqld.cnf:/etc/mysql/mysql.conf.d/mysqld.cnf  # 設定ファイルの変更
-      - ./init.sql:/docker-entrypoint-initdb.d/init.sql  # データベースの初期設定
+      - ./init.sql:/root/init.sql  # データベースの初期設定
     ports:
       - "3306:3306"
   web:

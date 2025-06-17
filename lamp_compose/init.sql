@@ -6,7 +6,7 @@ CREATE TABLE auth_test.test (
 );
 
 -- ユーザ sample_user に外部アクセス権を付与
-GRANT ALL PRIVILEGES ON auth_test.* TO 'sample_user'@'%' WITH GRANT OPTION;
+GRANT ALL PRIVILEGES ON auth_test.* TO 'sample_user'@'%';
 FLUSH PRIVILEGES;
 
 -- テーブル test にサンプルデータを格納
