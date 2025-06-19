@@ -2,26 +2,25 @@
 
 # 環境変数が設定されているか確認
 function check_env() {
-  local output=""
-  local success="Succeeded: 環境変数が設定されています。"
+  local error_message=""
   if [ -z "$MYSQL_ROOT_PASSWORD" ]; then
-    output="${output}Error: 環境変数 MYSQL_ROOT_PASSWORD が設定されていません。\n"
+    error_message="${error_message}Error: 環境変数 MYSQL_ROOT_PASSWORD が設定されていません。\n"
   fi
   if [ -z "$MYSQL_USER" ]; then
-    output="${output}Error: 環境変数 MYSQL_USER が設定されていません。\n"
+    error_message="${error_message}Error: 環境変数 MYSQL_USER が設定されていません。\n"
   fi
   if [ -z "$MYSQL_PASSWORD" ]; then
-    output="${output}Error: 環境変数 MYSQL_PASSWORD が設定されていません。\n"
+    error_message="${error_message}Error: 環境変数 MYSQL_PASSWORD が設定されていません。\n"
   fi
   if [ -z "$MYSQL_DATABASE" ]; then
-    output="${output}Error: 環境変数 MYSQL_DATABASE が設定されていません。\n"
+    error_message="${error_message}Error: 環境変数 MYSQL_DATABASE が設定されていません。\n"
   fi
-  if [ -z "${output}" ]; then
-    output="$success"
-    echo "$output"
+  local success=""
+  if [ -z "${error_message}" ]; then
+    echo "Succeeded: 環境変数が設定されています。"
     return 0
   else
-    echo -e "$output"
+    echo -e "$error_message"
     return 1    
   fi
 }
