@@ -2,8 +2,8 @@
 
 # 環境変数が設定されているか確認
 function check_env() {
-  output=""
-  success="Succeeded: 環境変数が設定されています。"
+  local output=""
+  local success="Succeeded: 環境変数が設定されています。"
   if [ -z "$MYSQL_ROOT_PASSWORD" ]; then
     output="${output}Error: 環境変数 MYSQL_ROOT_PASSWORD が設定されていません。\n"
   fi
@@ -19,27 +19,51 @@ function check_env() {
   if [ -z "${output}" ]; then
     output="$success"
     echo "$output"
+    return 0
   else
     echo -e "$output"
-    exit 1    
+    return 1    
   fi
-  return 0
 }
 
 
-# MySQLに接続して、auth_testというデータベースを作成
+# auth_testというデータベースを作成
 function create_database(){
   mysql --user=root --password=$MYSQL_ROOT_PASSWORD -e "CREATE DATABASE IF NOT EXISTS \`$MYSQL_DATABASE\`;"
   if [ $? -eq 0 ]; then
     echo "データベース '$MYSQL_DATABASE' が正常に作成されました。"
+    return 0
   else
     echo "データベース '$MYSQL_DATABASE' の作成に失敗しました。"
+    return 1
   fi
 }
+
+# auth_testデータベース内にtestテーブルを作成し、サンプルデータを格納
+function setup_table(){
+  mysql --user=root --password=$MYSQL_ROOT_PASSWORD -D "$MYSQL_DATABASE" -e "CREATE TABLE IF NOT EXISTS test (id INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(20), age INT);"
+  if [ $? -eq 0 ]; then
+    echo "テーブル 'test' が正常に作成されました。"
+    mysql --user=root --password=$MYSQL_ROOT_PASSWORD -D "$MYSQL_DATABASE" -e "INSERT INTO test (name, age) VALUES ('abc', '25'), ('def', '26'), ('ghi', '27');"
+    if [ $? -eq 0 ]; then
+      echo "テーブル 'test' のデータが更新されました。"
+      return 0
+    else
+      echo "テーブル 'test' のデータが更新できませんでした。"
+      return 1
+    fi
+  else
+    echo "テーブル 'test' の作成に失敗しました。"
+    return 1
+  fi
+}
+
+
 
 function main(){
   check_env
   create_database
+  setup_table
 }
 
 main
