@@ -16,7 +16,7 @@
 
   $hostname = "db";
   $username = "sample_user";
-  $password = "";
+  $password = "pass";
   $dbname = "auth_test";
   $tbl = "test";
 

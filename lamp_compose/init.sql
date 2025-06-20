@@ -1,3 +1,5 @@
+-- auth_testというデータベースを作成
+
 -- データベース auth_test の中に test テーブルを作成
 CREATE TABLE auth_test.test (
 	id INT AUTO_INCREMENT PRIMARY KEY,
