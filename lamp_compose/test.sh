@@ -25,7 +25,6 @@ function check_env() {
   fi
 }
 
-
 # auth_testというデータベースを作成
 function create_database(){
   mysql --user=root --password=$MYSQL_ROOT_PASSWORD -e "CREATE DATABASE IF NOT EXISTS \`$MYSQL_DATABASE\`;"
@@ -57,12 +56,18 @@ function setup_table(){
   fi
 }
 
+# 外部からの接続を許可したsample_userというユーザを作成
+function create_user(){
+  mysql --user=root --password=$MYSQL_ROOT_PASSWORD -e "CREATE USER 'sample_user' identified by '$MYSQL_PASSWORD'";
+  mysql --user=root --password=$MYSQL_ROOT_PASSWORD -e "GRANT ALL PRIVILEGES ON auth_test.test TO 'sample_user'@'%' WITH GRANT OPTION;"
+}
 
 
 function main(){
   check_env
   create_database
   setup_table
+  create_user
 }
 
 main
